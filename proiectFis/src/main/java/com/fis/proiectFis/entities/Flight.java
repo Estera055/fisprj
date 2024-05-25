@@ -1,7 +1,10 @@
 package com.fis.proiectFis.entities;
 
 import jakarta.persistence.*;
+
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -19,6 +22,8 @@ public class Flight {
     private double priceEconomy;
     private double priceBusiness;
     private double priceFirstClass;
+    private Date departureDateTime; // Data și ora de plecare
+    private Date arrivalDateTime; // Data și ora de sosire
 
     @ManyToOne
     @JoinColumn(name = "airline_id")

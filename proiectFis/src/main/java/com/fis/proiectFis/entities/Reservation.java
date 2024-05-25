@@ -1,5 +1,4 @@
 package com.fis.proiectFis.entities;
-import com.fis.proiectFis.entities.Flight;
 
 import jakarta.persistence.*;
 
@@ -20,19 +19,24 @@ public class Reservation {
     @ManyToOne
     @JoinColumn(name = "flight_id")
     private Flight flight;
-    String orasPlecare = flight.getOrasdus();
-    String orasDestinatie = flight.getOrasintors();
 
-    public Reservation(String passengerName, String seatClass, int seatNumber, double price, boolean isRoundTrip, boolean isLastMinute) {
+    private String orasPlecare;
+    private String orasDestinatie;
+
+    public Reservation(String passengerName, String seatClass, int seatNumber, double price, boolean isRoundTrip, boolean isLastMinute, Flight flight) {
         this.passengerName = passengerName;
         this.seatClass = seatClass;
         this.seatNumber = seatNumber;
         this.price = price;
         this.isRoundTrip = isRoundTrip;
         this.isLastMinute = isLastMinute;
+        this.flight = flight;
+        this.orasPlecare = flight.getOrasdus();
+        this.orasDestinatie = flight.getOrasintors();
     }
 
     public Reservation() {
+
     }
 
     public int getId() {
@@ -99,17 +103,20 @@ public class Reservation {
         this.flight = flight;
     }
 
-    @Override
-    public String toString() {
-        return "Reservation{" +
-                "id=" + id +
-                ", passengerName='" + passengerName + '\'' +
-                ", seatClass='" + seatClass + '\'' +
-                ", seatNumber=" + seatNumber +
-                ", price=" + price +
-                ", isRoundTrip=" + isRoundTrip +
-                ", isLastMinute=" + isLastMinute +
-                ", flight=" + flight +
-                '}';
+    public String getOrasPlecare() {
+        return orasPlecare;
     }
+
+    public void setOrasPlecare(String orasPlecare) {
+        this.orasPlecare = orasPlecare;
+    }
+
+    public String getOrasDestinatie() {
+        return orasDestinatie;
+    }
+
+    public void setOrasDestinatie(String orasDestinatie) {
+        this.orasDestinatie = orasDestinatie;
+    }
+// Other constructors, getters, setters, and methods...
 }

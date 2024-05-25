@@ -7,7 +7,7 @@ import java.util.List;
 public class Schedule {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int schedule_id;
 
     @ElementCollection
     private List<String> operatingDays;
@@ -20,11 +20,11 @@ public class Schedule {
     }
 
     public int getId() {
-        return id;
+        return schedule_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.schedule_id = id;
     }
 
     public List<String> getOperatingDays() {
@@ -38,7 +38,7 @@ public class Schedule {
     @Override
     public String toString() {
         return "Schedule{" +
-                "id=" + id +
+                "id=" + schedule_id +
                 ", operatingDays=" + operatingDays +
                 '}';
     }

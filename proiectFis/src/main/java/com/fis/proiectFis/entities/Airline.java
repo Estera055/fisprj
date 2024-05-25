@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Airline {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int airline_id;
     private String name;
     private String username;
     private String password;

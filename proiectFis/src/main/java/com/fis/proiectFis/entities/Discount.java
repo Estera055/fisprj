@@ -9,7 +9,7 @@ import jakarta.persistence.Id;
 public class Discount {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private int discount_id;
 
     private double roundTripDiscount;
     private double lastMinuteDiscount;
@@ -23,11 +23,11 @@ public class Discount {
     }
 
     public int getId() {
-        return id;
+        return discount_id;
     }
 
     public void setId(int id) {
-        this.id = id;
+        this.discount_id = id;
     }
 
     public double getRoundTripDiscount() {
@@ -49,7 +49,7 @@ public class Discount {
     @Override
     public String toString() {
         return "Discount{" +
-                "id=" + id +
+                "id=" + discount_id +
                 ", roundTripDiscount=" + roundTripDiscount +
                 ", lastMinuteDiscount=" + lastMinuteDiscount +
                 '}';
