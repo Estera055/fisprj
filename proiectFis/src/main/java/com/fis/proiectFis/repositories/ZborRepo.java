@@ -8,6 +8,6 @@ import java.util.List;
 @Repository
 
 public interface ZborRepo extends JpaRepository<Flight,Integer> {
-    List<Flight> findByorasdusAndorasintors(String orasdus, String orasintors);
+    List<Flight> findByOrasdusAndOrasintors(String orasdus, String orasintors);
 
 }

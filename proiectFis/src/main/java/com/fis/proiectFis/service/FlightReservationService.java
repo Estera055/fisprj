@@ -21,8 +21,8 @@ public class FlightReservationService {
     @Autowired
     private ZborRepo flightRepository;
 
-    public List<FlightDetails> searchFlights(String departureCity, String arrivalCity) {
-        List<Flight> foundFlights = flightRepository.findByorasdusAndorasintors(departureCity, arrivalCity);
+    public List<FlightDetails> searchFlights(String orasdus, String orasintors) {
+        List<Flight> foundFlights = flightRepository.findByOrasdusAndOrasintors(orasdus, orasintors);
         List<FlightDetails> flightDetailsList = new ArrayList<>();
 
         if (foundFlights.isEmpty()) {

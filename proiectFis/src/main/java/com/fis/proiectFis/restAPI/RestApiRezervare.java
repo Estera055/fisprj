@@ -4,7 +4,7 @@ import com.fis.proiectFis.entities.Reservation;
 import com.fis.proiectFis.repositories.RezervareRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import com.fis.proiectFis.repositories.ZborRepo;
 import java.util.List;
 
 @RestController
@@ -33,8 +33,8 @@ public class RestApiRezervare {
         rezervareRepo.save(rezervare);
     }
 
-    //@GetMapping("/search/rezervare")
-    //public List<Reservation> searchByOrasdusAndOrasintors(@RequestParam String orasdus, @RequestParam String orasintors) {
-      //  return rezervareRepo.findByOrasdusAndOrasintors(orasdus, orasintors);
-    //}
+//    @GetMapping("/search/rezervare")
+//    public List<Reservation> searchByOrasdusAndOrasintors(@RequestParam int id, @RequestParam String date) {
+//        return RezervareRepo.findbyIdAndDate(id, date);
+//    }
 }

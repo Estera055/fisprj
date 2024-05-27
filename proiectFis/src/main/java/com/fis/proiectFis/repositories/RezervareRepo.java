@@ -8,5 +8,5 @@ import java.time.LocalDate;
 import java.util.List;
 @Repository
 public interface RezervareRepo extends JpaRepository<Reservation, Integer> {
-    List<Reservation> findByFlightIdAndDate(int flightId, LocalDate date);
+//    List<Reservation> findByIdAndDate(int flightId, LocalDate date);
 }

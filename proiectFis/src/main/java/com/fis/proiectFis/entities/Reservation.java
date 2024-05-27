@@ -2,6 +2,8 @@ package com.fis.proiectFis.entities;
 
 import jakarta.persistence.*;
 
+import java.time.LocalDate;
+
 @Entity
 public class Reservation {
 
@@ -15,6 +17,7 @@ public class Reservation {
     private double price;
     private boolean isRoundTrip;
     private boolean isLastMinute;
+    private LocalDate date;
 
     @ManyToOne
     @JoinColumn(name = "flight_id")
