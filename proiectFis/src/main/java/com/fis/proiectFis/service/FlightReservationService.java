@@ -1,10 +1,8 @@
 package com.fis.proiectFis.service;
 
-
 import com.fis.proiectFis.entities.Flight;
 import com.fis.proiectFis.entities.Reservation;
 import com.fis.proiectFis.repositories.ZborRepo;
-import com.fis.proiectFis.repositories.RezervareRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,43 +10,84 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.time.LocalDateTime;
-import java.time.ZoneId;
-import java.util.Date;
 
 @Service
 public class FlightReservationService {
+
     @Autowired
     private ZborRepo flightRepository;
 
-    public List<FlightDetails> searchFlights(String orasdus, String orasintors) {
-        List<Flight> foundFlights = flightRepository.findByOrasdusAndOrasintors(orasdus, orasintors);
+    public List<FlightDetails> searchFlights(String departureCity, String arrivalCity, LocalDate departureDate, LocalDate returnDate, int adults, int children, int seniors, String flightClass, String tripType) {
+        // Validarea datelor de intrare
+        if (!validateInputs(departureCity, arrivalCity, departureDate, returnDate, tripType)) {
+            System.out.println("Datele de intrare nu sunt valide.");
+            return new ArrayList<>();
+        }
+
+        List<Flight> foundFlights = flightRepository.findByOrasdusAndOrasintors(departureCity, arrivalCity);
         List<FlightDetails> flightDetailsList = new ArrayList<>();
 
         if (foundFlights.isEmpty()) {
             System.out.println("Ne pare rău, nu s-au găsit zboruri pentru această rută. Vă rugăm să încercați o altă căutare.");
-        } else {
-            for (Flight flight : foundFlights) {
-                double priceWithDiscount = calculatePriceWithDiscount(flight);
+            return flightDetailsList;
+        }
+
+        for (Flight flight : foundFlights) {
+            if (isAvailable(flight, departureDate, returnDate, adults + children + seniors)) {
+
 
                 FlightDetails flightDetails = new FlightDetails();
                 flightDetails.setFlightCode(flight.getFlightCode());
                 flightDetails.setAirline(flight.getAirline().getName()); // Assuming Airline has a 'name' property
-                //LocalDateTime departureTime = convertToLocalDateTime(flight.getSchedule().getDepartureTime());
-                //LocalDateTime arrivalTime = convertToLocalDateTime(flight.getSchedule().getArrivalTime());
-                flightDetails.setPrice(priceWithDiscount);
+                flightDetails.setDepartureTime(flight.getSchedule().getDepartureTime());
+                flightDetails.setArrivalTime(flight.getSchedule().getArrivalTime());
+
 
                 flightDetailsList.add(flightDetails);
             }
         }
+
+        if (flightDetailsList.isEmpty()) {
+            System.out.println("Ne pare rău, nu s-au găsit zboruri convenabile. Vă rugăm să încercați o altă căutare.");
+        }
+
         return flightDetailsList;
     }
 
-    private double calculatePriceWithDiscount(Flight flight) {
-        // Logic to calculate price with discounts
-        // Assuming you have some discount logic implemented
-        return flight.getPriceEconomy(); // Just an example, replace with actual logic
+    private boolean validateInputs(String departureCity, String arrivalCity, LocalDate departureDate, LocalDate returnDate, String tripType) {
+        if (departureCity == null || arrivalCity == null || departureDate == null || tripType == null) {
+            return false;
+        }
+        if (tripType.equalsIgnoreCase("dus-intors") && returnDate == null) {
+            return false;
+        }
+        return true;
     }
+
+    private boolean isAvailable(Flight flight, LocalDate departureDate, LocalDate returnDate, int totalPassengers) {
+        // Check availability for departure date
+        if (!checkAvailabilityForDate(flight, departureDate, totalPassengers)) {
+            return false;
+        }
+
+        // Check availability for return date if the trip is round-trip
+        if (returnDate != null && !checkAvailabilityForDate(flight, returnDate, totalPassengers)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    private boolean checkAvailabilityForDate(Flight flight, LocalDate date1, int totalPassengers) {
+        // Retrieve reservations for the specified flight and date
+        List<Reservation> reservations = flight.getReservationsForDate(date1);
+        int reservedSeats = reservations.stream().mapToInt(Reservation::getNumberofPassengers).sum();
+
+        // Check if there are enough available seats
+        return (flight.getTotalSeats() - reservedSeats) >= totalPassengers;
+    }
+
+
 
     public static class FlightDetails {
         private String flightCode;
@@ -58,7 +97,6 @@ public class FlightReservationService {
         private double price;
 
         // Getters and setters
-
         public String getFlightCode() {
             return flightCode;
         }
@@ -98,5 +136,5 @@ public class FlightReservationService {
         public void setPrice(double price) {
             this.price = price;
         }
-}
+    }
 }

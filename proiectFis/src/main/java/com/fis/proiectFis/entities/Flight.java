@@ -24,7 +24,7 @@ public class Flight {
     private double priceFirstClass;
     private Date departureDateTime; // Data și ora de plecare
     private Date arrivalDateTime; // Data și ora de sosire
-
+    private int totalSeats;
     @ManyToOne
     @JoinColumn(name = "airline_id")
     private Airline airline;
@@ -47,7 +47,31 @@ public class Flight {
     // Constructors
 
 
-    public Flight(int id, String flightCode, String orasdus, String orasintors, String airplaneType, int numberOfSeatsEconomy, int numberOfSeatsBusiness, int numberOfSeatsFirstClass, double priceEconomy, double priceBusiness, double priceFirstClass, Airline airline, Route route, Schedule schedule, List<Reservation> reservations, Discount discount) {
+    public Date getDepartureDateTime() {
+        return departureDateTime;
+    }
+
+    public void setDepartureDateTime(Date departureDateTime) {
+        this.departureDateTime = departureDateTime;
+    }
+
+    public Date getArrivalDateTime() {
+        return arrivalDateTime;
+    }
+
+    public void setArrivalDateTime(Date arrivalDateTime) {
+        this.arrivalDateTime = arrivalDateTime;
+    }
+
+    public int getTotalSeats() {
+        return totalSeats;
+    }
+
+    public void setTotalSeats(int totalSeats) {
+        this.totalSeats = totalSeats;
+    }
+
+    public Flight(int id, String flightCode, String orasdus, String orasintors, String airplaneType, int numberOfSeatsEconomy, int numberOfSeatsBusiness, int numberOfSeatsFirstClass, double priceEconomy, double priceBusiness, double priceFirstClass, Date departureDateTime, Date arrivalDateTime, int totalSeats, Airline airline, Route route, Schedule schedule, List<Reservation> reservations, Discount discount) {
         this.id = id;
         this.flightCode = flightCode;
         this.orasdus = orasdus;
@@ -59,6 +83,9 @@ public class Flight {
         this.priceEconomy = priceEconomy;
         this.priceBusiness = priceBusiness;
         this.priceFirstClass = priceFirstClass;
+        this.departureDateTime = departureDateTime;
+        this.arrivalDateTime = arrivalDateTime;
+        this.totalSeats = totalSeats;
         this.airline = airline;
         this.route = route;
         this.schedule = schedule;
@@ -219,4 +246,14 @@ public class Flight {
                 ", discount=" + discount +
                 '}';
     }
+    public List<Reservation> getReservationsForDate(LocalDate date) {
+        List<Reservation> reservationsForDate = new ArrayList<>();
+        for (Reservation reservation : reservations) {
+            if (reservation.getDate1().equals(date)) {
+                reservationsForDate.add(reservation);
+            }
+        }
+        return reservationsForDate;
+    }
+
 }

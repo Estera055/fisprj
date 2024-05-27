@@ -1,7 +1,7 @@
 package com.fis.proiectFis.entities;
 
 import jakarta.persistence.*;
-
+import com.fis.proiectFis.entities.Flight;
 import java.time.LocalDate;
 
 @Entity
@@ -17,8 +17,9 @@ public class Reservation {
     private double price;
     private boolean isRoundTrip;
     private boolean isLastMinute;
-    private LocalDate date;
-
+    private LocalDate date1;
+    private LocalDate date2;//valabil DOAR pentru cursele dus-intors(mai exact orasul intors)
+    private int numberofPassengers;
     @ManyToOne
     @JoinColumn(name = "flight_id")
     private Flight flight;
@@ -26,20 +27,49 @@ public class Reservation {
     private String orasPlecare;
     private String orasDestinatie;
 
-    public Reservation(String passengerName, String seatClass, int seatNumber, double price, boolean isRoundTrip, boolean isLastMinute, Flight flight) {
+
+    public Reservation() {
+
+    }
+
+    public int getNumberofPassengers() {
+        return numberofPassengers;
+    }
+
+    public void setNumberofPassengers(int numberofPassengers) {
+        this.numberofPassengers = numberofPassengers;
+    }
+
+    public Reservation(int id, String passengerName, String seatClass, int seatNumber, double price, boolean isRoundTrip, boolean isLastMinute, LocalDate date1, LocalDate date2, int numberofPassengers, Flight flight, String orasPlecare, String orasDestinatie) {
+        this.id = id;
         this.passengerName = passengerName;
         this.seatClass = seatClass;
         this.seatNumber = seatNumber;
         this.price = price;
         this.isRoundTrip = isRoundTrip;
         this.isLastMinute = isLastMinute;
+        this.date1 = date1;
+        this.date2 = date2;
+        this.numberofPassengers = numberofPassengers;
         this.flight = flight;
-        this.orasPlecare = flight.getOrasdus();
-        this.orasDestinatie = flight.getOrasintors();
+        this.orasPlecare = orasPlecare;
+        this.orasDestinatie = orasDestinatie;
     }
 
-    public Reservation() {
+    public LocalDate getDate1() {
+        return date1;
+    }
 
+    public void setDate1(LocalDate date1) {
+        this.date1 = date1;
+    }
+
+    public LocalDate getDate2() {
+        return date2;
+    }
+
+    public void setDate2(LocalDate date2) {
+        this.date2 = date2;
     }
 
     public int getId() {
